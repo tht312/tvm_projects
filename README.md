@@ -31,7 +31,7 @@ TVM源码基于TVM0.8 Release版，可以采用两种方式进行编译
 1.  编译TVM时需要llvm环境，Ubuntu环境下可以在llvm官网下载编译好的二进制版本，目前测试11和12均可以，13时tvm编译会报错。Windows环境由于二进制版本没有llvm-config，需要自己编译一遍llvm，这个过程比较麻烦。
 2.  编译TVM需要cuda和cudnn环境。
 3.  根据官网TVM源码编译教程，需要在build目录下拷贝一份cmake.config，本仓库已经提供，可根据具体情况修改llvm的路径。
-4.  对TVM源码的修改主要包括添加对反向传播算子的支持和con2d算子反向传播时通过自定义算子调用cudnn库。
+4.  对TVM源码的修改主要包括添加对反向传播算子的支持和conv2d算子反向传播时通过自定义算子调用cudnn库。
 5.  使用时直接运行python_projects下的文件即可，各个文件的具体功能如下：   
 
     + 程序入口为tvm_train_fcn_gid和tvm_infer_fcn_gid，分别用来训练和推理，使用时需要修改数据集的路径以及输入图像大小等。tvm_train_fcn_gid训练多个epoch。
