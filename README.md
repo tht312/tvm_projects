@@ -34,9 +34,10 @@ TVM源码基于TVM0.8 Release版，可以采用两种方式进行编译
 4.  对TVM源码的修改主要包括添加对反向传播算子的支持和con2d算子反向传播时通过自定义算子调用cudnn库。
 5.  使用时直接运行python_projects下的文件即可，各个文件的具体功能如下：   
 
-    + 程序入口为tvm_train_fcn_gid和tvm_infer_fcn_gid，分别用来训练和推理，使用时需要修改数据集的路径以及输入图像大小等。  
+    + 程序入口为tvm_train_fcn_gid和tvm_infer_fcn_gid，分别用来训练和推理，使用时需要修改数据集的路径以及输入图像大小等。tvm_train_fcn_gid训练多个epoch。
     + module_,gradient_,optimizer,用来支持训练。其中module_负责训练整体的过程，gradient_实现反向传播，optimizer目前实现了Adam优化器。  
     + fcn_for_train是torch定义的fcn模型，pass_reset_input将torch模型导入TVM，并修改模型的输入大小。（因为TVM导入模型是通过CPU模拟一遍模型的计算过程来实现，因此输入尺寸较大时这个时间会很长，这里直接通过Pass修改模型输入大小）  
     + mypass1_2为一维的算子分解，使用时需要修改第68行N的值来改变切割的块数。mypass4_3是二维算子分解，也需要修改N的大小，表示每个算子切成N×N。  
     + pass_for_device负责将部分算子的计算放在GPU上，这一过程本可以在算子分解时完成，但是由于TVM开发早期在自动微分时对device总是存在BUG，因此单独拿出来在反向传播后的计算图上进行。  
     + 根据经验，对大幅面图像进行训练时最好使用预训练的模型对参数进行初始化，否则在softmax时由于数据过小会全部归一化，训练就会实效。可以用load_params读取预训练的模型参数。  
+    + torch目录下为pytorch对比训练的代码，由于算子分解没有支持stride_slice算子，因此torch模型的最后一行在TVM中采用算子分解后手写的方式进行训练。
