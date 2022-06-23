@@ -41,4 +41,4 @@ TVM源码基于TVM0.8 Release版，可以采用两种方式进行编译
     + pass_for_device负责将部分算子的计算放在GPU上，这一过程本可以在算子分解时完成，但是由于TVM开发早期在自动微分时对device总是存在BUG，因此单独拿出来在反向传播后的计算图上进行。  
     + 根据经验，对大幅面图像进行训练时最好使用预训练的模型对参数进行初始化，否则在softmax时由于数据过小会全部归一化，训练就会实效。可以用load_params读取预训练的模型参数。  
     + torch目录下为pytorch对比训练的代码，由于算子分解没有支持stride_slice算子，因此torch模型的最后一行在TVM中采用算子分解后手写的方式进行训练。
-    + frontend把TVM模型可视化表示，label_score_accuracy对结果进行评估。
+    + frontend把TVM模型可视化表示，label_accuracy_score对结果进行评估。
