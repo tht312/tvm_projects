@@ -42,3 +42,4 @@ TVM源码基于TVM0.8 Release版，可以采用两种方式进行编译
     + 根据经验，对大幅面图像进行训练时最好使用预训练的模型对参数进行初始化，否则在softmax时由于数据过小会全部归一化，训练就会实效。可以用load_params读取预训练的模型参数。  
     + torch目录下为pytorch对比训练的代码，由于算子分解没有支持stride_slice算子，因此torch模型的最后一行在TVM中采用算子分解后手写的方式进行训练。
     + frontend把TVM模型可视化表示，label_accuracy_score对结果进行评估。
+    + graph_plan_memory是内存分配优化，目前只做了内存分配部分，没有改调度部分，可以看到优化后的内存分配结果。文件在tvm/src/relay/backend/下，使用时需要将src/relay/ir/expr_functor.cc中348行"isit_Expr"和349行visit_counter调换顺序。
